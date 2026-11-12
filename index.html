@@ -36,6 +36,19 @@ button:focus-visible,label:focus-within{outline:3px solid var(--sun);outline-off
 .res{font-size:44px;font-weight:800}
 .ok{color:var(--ok)}.bad{color:var(--bad)}
 .foot{margin-top:40px;font-size:14px}
+.zone{min-height:64px;display:flex;flex-wrap:wrap;gap:8px;padding:12px;border:2px dashed var(--line);border-radius:14px;margin:12px 0;background:var(--card)}
+#line{border-color:var(--acc)}
+.chip{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;background:var(--card);border:2px solid var(--acc);color:var(--ink);border-radius:10px;padding:6px 14px;font-weight:600}
+.ghost{position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:99;box-shadow:0 6px 18px #0004}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mg>div{display:grid;gap:10px;align-content:start}
+.mc{font:600 16px "Noto Sans Georgian",sans-serif;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:12px 8px;cursor:pointer}
+.mc.sel{border-color:var(--acc);background:var(--acc);color:#fff}
+.mc.ok{border-color:var(--ok);opacity:.55}
+.mc.no{border-color:var(--bad);background:var(--bad);color:#fff}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.blank{display:inline-block;min-width:80px;border-bottom:3px solid var(--acc);text-align:center;color:var(--acc);font-weight:700}
+.sent{font-size:22px;line-height:1.8}
 </style>
 </head>
 <body>
@@ -348,6 +361,221 @@ const LEVELS = [
     { q: "___ she got a chair?", o: ["Has", "Have", "Is"], a: 0 },
     { q: "„What is your address?“ ნიშნავს:", o: ["სად არის შენი ბინა?", "რა არის შენი მისამართი?", "რა გქვია?"], a: 1 },
     { q: "„Has the house got a bathroom?“ ნიშნავს:", o: ["სახლს აქვს აბაზანის ოთახი?", "სახლი ახალია?", "სახლში არის ბაღი?"], a: 0 }
+   ] },
+ { title: "ადგილი და ფერები",
+   lessons: [
+    { title: "ახალი სიტყვები",
+      body: `<table><tr><td class='en'>above</td><td>ზემოთ / მაღლა</td></tr>
+      <tr><td class='en'>at</td><td>-ში / -ზე (ადგილის აღმნიშვნელი)</td></tr>
+      <tr><td class='en'>behind</td><td>უკან</td></tr>
+      <tr><td class='en'>below</td><td>ქვემოთ</td></tr>
+      <tr><td class='en'>big</td><td>დიდი</td></tr>
+      <tr><td class='en'>black</td><td>შავი</td></tr>
+      <tr><td class='en'>blue</td><td>ლურჯი / ცისფერი</td></tr>
+      <tr><td class='en'>bottom</td><td>ფსკერი / ძირი / ქვედა ნაწილი</td></tr>
+      <tr><td class='en'>brown</td><td>ყავისფერი</td></tr>
+      <tr><td class='en'>different</td><td>განსხვავებული</td></tr>
+      <tr><td class='en'>glass</td><td>მინა / შუშა</td></tr>
+      <tr><td class='en'>green</td><td>მწვანე</td></tr>
+      <tr><td class='en'>important</td><td>მნიშვნელოვანი</td></tr>
+      <tr><td class='en'>inside</td><td>შიგნით</td></tr>
+      <tr><td class='en'>object</td><td>საგანი / ობიექტი</td></tr></table>` },
+    { title: "განმარტებები",
+      body: `<p>წაიკითხე ინგლისური განმარტებები და დაუკავშირე სიტყვებს:</p>
+      <table><tr><td class='en'>above</td><td class='en'>In a higher place than something else.</td></tr>
+      <tr><td class='en'>at</td><td class='en'>Used to show the specific position of someone or something.</td></tr>
+      <tr><td class='en'>behind</td><td class='en'>At or towards the back of someone or something.</td></tr>
+      <tr><td class='en'>below</td><td class='en'>In a lower place than something else.</td></tr>
+      <tr><td class='en'>big</td><td class='en'>Large in size or amount.</td></tr>
+      <tr><td class='en'>black</td><td class='en'>Having the darkest color, like night.</td></tr>
+      <tr><td class='en'>blue</td><td class='en'>The color of the clear sky.</td></tr>
+      <tr><td class='en'>bottom</td><td class='en'>The lowest part of something.</td></tr>
+      <tr><td class='en'>brown</td><td class='en'>Having the color of earth or wood.</td></tr>
+      <tr><td class='en'>different</td><td class='en'>Not the same.</td></tr>
+      <tr><td class='en'>glass</td><td class='en'>A hard, transparent material used for windows.</td></tr>
+      <tr><td class='en'>green</td><td class='en'>The color of grass or leaves.</td></tr>
+      <tr><td class='en'>important</td><td class='en'>Having great meaning or value.</td></tr>
+      <tr><td class='en'>inside</td><td class='en'>In or into the inner part of something.</td></tr>
+      <tr><td class='en'>object</td><td class='en'>A thing that you can see or touch.</td></tr></table>` },
+    { title: "ტექსტი: ჩემი ოთახი",
+      body: `<p class='en'>I have a big room and it is very important to me. When I walk inside, I see many things. There is a blue chair near the window. Above the chair, there is a green plant.</p>
+      <p>მე მაქვს დიდი ოთახი და ის ჩემთვის ძალიან მნიშვნელოვანია. როდესაც შიგნით შევდივარ, ბევრ რამეს ვხედავ. ფანჯარასთან დგას ლურჯი სკამი. სკამის ზემოთ არის მწვანე მცენარე.</p>
+      <p class='en'>Sometimes, my black cat hides behind the door. I have a small table made of glass. It is very beautiful. On the table, there is an object. It is a small box. I keep my pencils at the bottom of this box.</p>
+      <p>ზოგჯერ, ჩემი შავი კატა კარის უკან იმალება. მე მაქვს პატარა მაგიდა, რომელიც მინითაა გაკეთებული. ის ძალიან ლამაზია. მაგიდაზე დევს ერთი საგანი. ეს პატარა ყუთია. მე ჩემს ფანქრებს ამ ყუთის ძირში ვინახავ.</p>
+      <p class='en'>Everything in my room is different. For example, I have a brown rug on the floor, and my desk is below the shelf. I like to be in my room because it is my favorite place.</p>
+      <p>ჩემს ოთახში ყველაფერი განსხვავებულია. მაგალითად, იატაკზე მაქვს ყავისფერი ხალიჩა, ხოლო ჩემი საწერი მაგიდა თაროს ქვემოთ დგას. მე მიყვარს ჩემს ოთახში ყოფნა, რადგან ის ჩემი საყვარელი ადგილია.</p>` },
+    { title: "წინადადებები",
+      body: `<table><tr><td class='en'>I have a big room.</td><td>მე მაქვს დიდი ოთახი.</td></tr>
+      <tr><td class='en'>My room is very important.</td><td>ჩემი ოთახი ძალიან მნიშვნელოვანია.</td></tr>
+      <tr><td class='en'>There is a blue chair near the window.</td><td>ფანჯარასთან დგას ლურჯი სკამი.</td></tr>
+      <tr><td class='en'>There is a green plant above the chair.</td><td>სკამის ზემოთ არის მწვანე მცენარე.</td></tr>
+      <tr><td class='en'>My black cat hides behind the door.</td><td>ჩემი შავი კატა კარის უკან იმალება.</td></tr>
+      <tr><td class='en'>I keep my pencils at the bottom of the box.</td><td>ფანქრებს ყუთის ძირში ვინახავ.</td></tr>
+      <tr><td class='en'>My desk is below the shelf.</td><td>ჩემი საწერი მაგიდა თაროს ქვემოთ დგას.</td></tr></table>` },
+    { title: "უარყოფა და კითხვა",
+      body: `<table><tr><td class='en'>My room is not big.</td><td>ჩემი ოთახი დიდი არ არის.</td></tr>
+      <tr><td class='en'>My room is not very important.</td><td>ჩემი ოთახი ძალიან მნიშვნელოვანი არ არის.</td></tr>
+      <tr><td class='en'>Is there a blue chair near the window?</td><td>არის თუ არა ფანჯარასთან ლურჯი სკამი?</td></tr>
+      <tr><td class='en'>Is there a green plant above the chair?</td><td>არის თუ არა სკამის ზემოთ მწვანე მცენარე?</td></tr>
+      <tr><td class='en'>My black cat is not behind the door.</td><td>ჩემი შავი კატა კარის უკან არ არის.</td></tr>
+      <tr><td class='en'>My desk is not below the shelf.</td><td>ჩემი საწერი მაგიდა თაროს ქვემოთ არ არის.</td></tr>
+      <tr><td class='en'>Is the object on the table?</td><td>არის თუ არა საგანი მაგიდაზე?</td></tr></table>` },
+    { title: "შეკითხვები საუბრისთვის",
+      body: `<table><tr><td class='en'>What is your favorite color?</td><td>რა არის შენი საყვარელი ფერი?</td></tr>
+      <tr><td class='en'>Who is your best friend?</td><td>ვინ არის შენი საუკეთესო მეგობარი?</td></tr>
+      <tr><td class='en'>Do you have a pet?</td><td>გყავს შინაური ცხოველი?</td></tr>
+      <tr><td class='en'>What is your favorite food?</td><td>რა არის შენი საყვარელი საჭმელი?</td></tr>
+      <tr><td class='en'>Do you like school?</td><td>გიყვარს სკოლა?</td></tr>
+      <tr><td class='en'>How many books are in your bag?</td><td>რამდენი წიგნია შენს ჩანთაში?</td></tr>
+      <tr><td class='en'>What color is your room?</td><td>რა ფერისაა შენი ოთახი?</td></tr>
+      <tr><td class='en'>Do you like swimming?</td><td>გიყვარს ცურვა?</td></tr>
+      <tr><td class='en'>What do you do after school?</td><td>რას აკეთებ სკოლის შემდეგ?</td></tr>
+      <tr><td class='en'>Is your room big or small?</td><td>შენი ოთახი დიდია თუ პატარა?</td></tr></table>` },
+    { title: "წინადადების აწყობა",
+      body: `<table><tr><td class='en'>room / big / have / a / I</td><td class='en'>I have a big room.</td></tr>
+      <tr><td class='en'>is / room / important / my / very</td><td class='en'>My room is very important.</td></tr>
+      <tr><td class='en'>blue / is / there / chair / a / window / near / the</td><td class='en'>There is a blue chair near the window.</td></tr>
+      <tr><td class='en'>plant / green / is / a / there / chair / above / the</td><td class='en'>There is a green plant above the chair.</td></tr>
+      <tr><td class='en'>the / hides / door / cat / behind / my / black</td><td class='en'>My black cat hides behind the door.</td></tr>
+      <tr><td class='en'>my / pencils / I / bottom / of / keep / the / box / at / the</td><td class='en'>I keep my pencils at the bottom of the box.</td></tr>
+      <tr><td class='en'>desk / is / my / shelf / the / below</td><td class='en'>My desk is below the shelf.</td></tr>
+      <tr><td class='en'>room / my / big / is / not</td><td class='en'>My room is not big.</td></tr>
+      <tr><td class='en'>a / is / blue / chair / there / near / the / window / ?</td><td class='en'>Is there a blue chair near the window?</td></tr>
+      <tr><td class='en'>black / cat / my / behind / the / door / is / not</td><td class='en'>My black cat is not behind the door.</td></tr>
+      <tr><td class='en'>the / on / is / object / table / the / ?</td><td class='en'>Is the object on the table?</td></tr></table>` }
+   ],
+   test: [
+    { q: "The picture is ___ the sofa.", o: ["above", "inside", "bottom"], a: 0 },
+    { q: "The cat is ___ the chair.", o: ["behind", "green", "big"], a: 0 },
+    { q: "This elephant is very ___.", o: ["blue", "big", "brown"], a: 1 },
+    { q: "The sky is ___ today.", o: ["black", "blue", "green"], a: 1 },
+    { q: "Please put your name at the ___ of the page.", o: ["bottom", "inside", "at"], a: 0 },
+    { q: "Water is ___ for our health.", o: ["different", "important", "Big"], a: 1 },
+    { q: "The key is ___ my pocket.", o: ["above", "inside", "below"], a: 1 },
+    { q: "What is that mysterious ___?", o: ["object", "glass", "bottom"], a: 0 },
+    { q: "„below“ ნიშნავს:", o: ["ზემოთ", "ქვემოთ", "შიგნით"], a: 1 },
+    { q: "„glass“ ნიშნავს:", o: ["მინა / შუშა", "შავი", "საგანი"], a: 0 }
+   ] },
+ { title: "Present Simple: ყოველდღიური ქმედებები",
+   lessons: [
+    { title: "როდის ვიყენებთ?",
+      body: `<p><b>Present Simple</b> გვსაბრავს სასურველი რამესთვის: სართუნების (ყოველდღიური ქმედებები), და სარეალიზაციის (ფაქტების) სანახავად.</p>
+      <p><b>I / You / We / They</b> + დარსტანდარტი ბრუნება &nbsp;&nbsp; <b>He / She / It</b> + დასამატებელი <b>-s</b></p>
+      <table><tr><td class='en'>I live in a flat.</td><td>მე ბინაში ვცხოვრობ.</td></tr>
+      <tr><td class='en'>You like school.</td><td>შენ გიყვარს სკოლა.</td></tr>
+      <tr><td class='en'>We have a big garden.</td><td>ჩვენ გვაქვს დიდი ბაღი.</td></tr>
+      <tr><td class='en'>They keep pencils in a box.</td><td>ისინი ფანქრებს ყუთში ინახავენ.</td></tr>
+      <tr><td class='en'>He likes his new car.</td><td>მას უყვარს თავისი ახალი მანქანა.</td></tr>
+      <tr><td class='en'>She lives near the school.</td><td>ის სკოლასთან ახლოს ცხოვრობს.</td></tr>
+      <tr><td class='en'>My cat hides behind the door.</td><td>ჩემი კატა კარის უკან იმალება.</td></tr></table>` },
+    { title: "ქმედებითი სიტყვები",
+      body: `<table><tr><td class='en'>like</td><td>მოსწონს / უყვარს</td></tr>
+      <tr><td class='en'>live</td><td>ცხოვრობს</td></tr>
+      <tr><td class='en'>keep</td><td>ინახავს</td></tr>
+      <tr><td class='en'>hide</td><td>იმალება</td></tr>
+      <tr><td class='en'>walk</td><td>დადის</td></tr>
+      <tr><td class='en'>see</td><td>ხედავს</td></tr>
+      <tr><td class='en'>play</td><td>თამაშობს</td></tr>
+      <tr><td class='en'>read</td><td>კითხულობს</td></tr>
+      <tr><td class='en'>eat</td><td>ჭამს</td></tr></table>
+      <p><b>He / She / It-თან დამატებითი -s:</b></p>
+      <table><tr><td class='en'>like → likes</td><td class='en'>live → lives</td></tr>
+      <tr><td class='en'>keep → keeps</td><td class='en'>hide → hides</td></tr>
+      <tr><td class='en'>go → goes</td><td class='en'>watch → watches</td></tr>
+      <tr><td class='en'>have → has</td><td class='en'>play → plays</td></tr></table>` },
+    { title: "უარყოფა: don’t / doesn’t",
+      body: `<p><b>I / You / We / They</b> + don’t + ქმედება &nbsp;&nbsp; <b>He / She / It</b> + doesn’t + ქმედება (აღარ დავუმატოთ -s!)</p>
+      <table><tr><td class='en'>I don’t like black cats.</td><td>მე არ მიყვარს შავი კატები.</td></tr>
+      <tr><td class='en'>We don’t have a big garden.</td><td>ჩვენ არ გვაქვს დიდი ბაღი.</td></tr>
+      <tr><td class='en'>They don’t live in a flat.</td><td>ისინი ბინაში არ ცხოვრობენ.</td></tr>
+      <tr><td class='en'>He doesn’t like school.</td><td>მას სკოლა არ უყვარს.</td></tr>
+      <tr><td class='en'>She doesn’t keep pencils in the bag.</td><td>ის ფანქრებს ჩანთაში არ ინახავს.</td></tr>
+      <tr><td class='en'>My cat doesn’t hide behind the door.</td><td>ჩემი კატა კარის უკან არ იმალება.</td></tr></table>` },
+    { title: "კითხვა: Do / Does",
+      body: `<p><b>Do</b> + I / you / we / they ... ? &nbsp;&nbsp; <b>Does</b> + he / she / it ... ?</p>
+      <table><tr><td class='en'>Do they live in a flat?</td><td>ისინი ბინაში ცხოვრობენ?</td></tr>
+      <tr><td class='en'>Does he have a car?</td><td>მას აქვს მანქანა?</td></tr>
+      <tr><td class='en'>Does she like swimming?</td><td>მას უყვარს ცურვა?</td></tr>
+      <tr><td class='en'>Does your cat hide behind the door?</td><td>შენი კატა კარის უკან იმალება?</td></tr>
+      <tr><td class='en'>Do you keep pencils in your bag?</td><td>ფანქრებს შენს ჩანთაში ინახავ?</td></tr>
+      <tr><td class='en'>Yes, I do.</td><td>დიახ, ვინახავ.</td></tr>
+      <tr><td class='en'>No, he doesn’t.</td><td>არა, არ ინახავს.</td></tr></table>` },
+    { title: "წინადადების აწყობა",
+      body: `<table><tr><td class='en'>like / I / school</td><td class='en'>I like school.</td></tr>
+      <tr><td class='en'>lives / flat / in / a / She</td><td class='en'>She lives in a flat.</td></tr>
+      <tr><td class='en'>have / garden / We / big / a</td><td class='en'>We have a big garden.</td></tr>
+      <tr><td class='en'>doesn’t / He / school / like</td><td class='en'>He doesn’t like school.</td></tr>
+      <tr><td class='en'>they / Do / a / flat / live / in / ?</td><td class='en'>Do they live in a flat?</td></tr>
+      <tr><td class='en'>keeps / She / her / pencils / in / a / box</td><td class='en'>She keeps her pencils in a box.</td></tr>
+      <tr><td class='en'>cat / hide / my / Does / door / behind / the / ?</td><td class='en'>Does my cat hide behind the door?</td></tr></table>` }
+   ],
+   test: [
+    { q: "She ___ in a flat.", o: ["live", "lives", "living"], a: 1 },
+    { q: "I ___ school.", o: ["likes", "like", "liking"], a: 1 },
+    { q: "He ___ a new car.", o: ["have", "has", "haves"], a: 1 },
+    { q: "They ___ a big garden.", o: ["has", "have", "is"], a: 1 },
+    { q: "We ___ like black cats. (უარყოფითი)", o: ["doesn’t", "don’t", "isn’t"], a: 1 },
+    { q: "My cat ___ hide behind the door. (უარყოფითი)", o: ["don’t", "doesn’t", "isn’t"], a: 1 },
+    { q: "___ you like swimming?", o: ["Does", "Do", "Are"], a: 1 },
+    { q: "___ she have a pet?", o: ["Do", "Does", "Is"], a: 1 },
+    { q: "„He keeps his pencils at the bottom of the box.“ ნიშნავს:", o: ["ის ფანქრებს ყუთის ძირში ინახავს", "ის ფანქრებს ყუთის ზემოთ ინახავს", "ის ფანქრებს ყუთიდან იღებს"], a: 0 },
+    { q: "doesn’t ვიყენებთ:", o: ["I / you / we-თან", "he / she / it-თან", "მხოლოდ they-თან"], a: 1 }
+   ] },
+ { title: "გამეორება: სიტყვების მიქსი",
+   lessons: [
+    { title: "ნასწავლი სიტყვები",
+      body: `<table><tr><td class='en'>grandfather</td><td>ბაბუა</td></tr>
+      <tr><td class='en'>grandmother</td><td>ბებია</td></tr>
+      <tr><td class='en'>brother</td><td>ძმა</td></tr>
+      <tr><td class='en'>sister</td><td>და</td></tr>
+      <tr><td class='en'>teacher</td><td>მასწავლებელი</td></tr>
+      <tr><td class='en'>apple</td><td>ვაშლი</td></tr>
+      <tr><td class='en'>ball</td><td>ბურთი</td></tr>
+      <tr><td class='en'>bag</td><td>ჩანთა</td></tr>
+      <tr><td class='en'>pen</td><td>კალამი</td></tr>
+      <tr><td class='en'>car</td><td>მანქანა</td></tr>
+      <tr><td class='en'>dog</td><td>ძაღლი</td></tr>
+      <tr><td class='en'>ear</td><td>ყური</td></tr>
+      <tr><td class='en'>eye</td><td>თვალი</td></tr>
+      <tr><td class='en'>nose</td><td>ცხვირი</td></tr>
+      <tr><td class='en'>mouth</td><td>პირი</td></tr>
+      <tr><td class='en'>hair</td><td>თმა</td></tr>
+      <tr><td class='en'>happy</td><td>ბედნიერი</td></tr>
+      <tr><td class='en'>small</td><td>პატარა</td></tr>
+      <tr><td class='en'>new</td><td>ახალი</td></tr>
+      <tr><td class='en'>old</td><td>ძველი</td></tr>
+      <tr><td class='en'>red</td><td>წითელი</td></tr>
+      <tr><td class='en'>yellow</td><td>ყვითელი</td></tr>
+      <tr><td class='en'>garden</td><td>ბაღი</td></tr>
+      <tr><td class='en'>flat</td><td>ბინა</td></tr>
+      <tr><td class='en'>door</td><td>კარი</td></tr>
+      <tr><td class='en'>bed</td><td>საწოლი</td></tr>
+      <tr><td class='en'>chair</td><td>სკამი</td></tr>
+      <tr><td class='en'>above</td><td>ზემოთ</td></tr>
+      <tr><td class='en'>below</td><td>ქვემოთ</td></tr>
+      <tr><td class='en'>inside</td><td>შიგნით</td></tr></table>` },
+    { title: "წინადადებები მიქსში",
+      body: `<table><tr><td class='en'>My mother has a new car.</td><td>ჩემს დედას ახალი მანქანა აქვს.</td></tr>
+      <tr><td class='en'>The dog is behind the door.</td><td>ძაღლი კარის უკან არის.</td></tr>
+      <tr><td class='en'>My brother likes red apples.</td><td>ჩემს ძმას წითელი ვაშლები უყვარს.</td></tr>
+      <tr><td class='en'>There is a yellow ball in the garden.</td><td>ბაღში ყვითელი ბურთია.</td></tr>
+      <tr><td class='en'>I keep my pen inside my bag.</td><td>კალამს ჩემს ჩანთაში ვინახავ.</td></tr>
+      <tr><td class='en'>The teacher is very happy.</td><td>მასწავლებელი ძალიან ბედნიერია.</td></tr>
+      <tr><td class='en'>My grandmother has a small flat.</td><td>ჩემს ბებიას პატარა ბინა აქვს.</td></tr>
+      <tr><td class='en'>Does your sister like black cats?</td><td>შენს დას უყვარს შავი კატები?</td></tr>
+      <tr><td class='en'>My old dog doesn’t like the new bed.</td><td>ჩემს ძველ ძაღლს ახალი საწოლი არ უყვარს.</td></tr></table>` }
+   ],
+   test: [
+    { q: "„grandfather“ ნიშნავს:", o: ["ბებია", "ბაბუა", "მამა"], a: 1 },
+    { q: "„ყური“ ინგლისურად:", o: ["eye", "ear", "nose"], a: 1 },
+    { q: "„below“ ნიშნავს:", o: ["ზემოთ", "ქვემოთ", "შიგნით"], a: 1 },
+    { q: "My brother ___ a new bag.", o: ["have", "has", "is"], a: 1 },
+    { q: "___ she have a dog?", o: ["Do", "Does", "Is"], a: 1 },
+    { q: "The ball is ___ the chair. (სკამის ქვეშ)", o: ["above", "below", "inside"], a: 1 },
+    { q: "I ___ like old cars. (უარყოფითი)", o: ["doesn’t", "don’t", "isn’t"], a: 1 },
+    { q: "„yellow“ ნიშნავს:", o: ["წითელი", "ყვითელი", "მწვანე"], a: 1 },
+    { q: "The teacher ___ in a small flat.", o: ["live", "lives", "living"], a: 1 },
+    { q: "„The dog is behind the door.“ ნიშნავს:", o: ["ძაღლი კარის უკან არის", "ძაღლი კარის ზემოთ არის", "ძაღლი კარის შიგნით არის"], a: 0 }
    ] }
  // ახალი დონის დასამატებლად დააკოპირე ზემოთა ბლოკი და შეცვალე ტექსტი.
 ];
@@ -379,7 +607,7 @@ function level(i) {
   app.innerHTML = `<button class="b g" onclick="home()">← დონეები</button>
   <h1>დონე ${i + 1}: ${l.title}</h1>` +
   l.lessons.map((ls, j) => `<div class="box"><h2>${j + 1}. ${ls.title}</h2>${ls.body}</div>`).join("") +
-  `<button class="b" onclick="test(${i})">დავიწყოთ საბოლოო ტესტი</button>`;
+  gamesBox(i) + `<button class="b" onclick="test(${i})">დავიწყოთ საბოლოო ტესტი</button>`;
   window.scrollTo(0, 0);
 }
 
@@ -387,7 +615,7 @@ function test(i) {
   const l = LEVELS[i];
   app.innerHTML = `<h1>ტესტი: დონე ${i + 1}</h1><p class="mut">გადასასვლელად საჭიროა ${PASS}%.</p>
   <div>${l.test.map((t, k) => `<div class="q"><b>${k + 1}. ${t.q}</b>` +
-    t.o.map((o, m) => `<label><input type="radio" name="q${k}" value="${m}">${o}</label>`).join("") + `</div>`).join("")}</div>
+    shuf(t.o.map((o, m) => [o, m])).map(([o, m]) => `<label><input type="radio" name="q${k}" value="${m}">${o}</label>`).join("") + `</div>`).join("")}</div>
   <button class="b" onclick="grade(${i})">შედეგის ნახვა</button>
   <button class="b g" onclick="level(${i})">გაკვეთილებზე დაბრუნება</button>`;
   window.scrollTo(0, 0);
@@ -417,6 +645,190 @@ function grade(i) {
 function reset() {
   if (confirm("დარწმუნებული ხარ? პროგრესი წაიშლება.")) { passed = []; save(); home(); }
 }
+/* ----- თამაშები: მონაცემები ავტომატურად აიღება გაკვეთილების ცხრილებიდან ----- */
+let G = null;
+const shuf = a => { a = [...a]; for (let k = a.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; };
+const wc = t => t.split(/\s+/).length;
+
+function pairs(i) {
+  const out = { m: [], s: [] };
+  LEVELS[i].lessons.forEach(ls => {
+    const d = new DOMParser().parseFromString(ls.body, "text/html");
+    d.querySelectorAll("tr").forEach(r => {
+      const c = r.cells;
+      if (c.length < 2 || !c[0].classList.contains("en")) return;
+      const a = c[0].textContent.trim(), b = c[1].textContent.trim();
+      if (c[1].classList.contains("en")) { if (a.includes(" / ") && /[.?!]$/.test(b)) out.s.push({ a: b, h: "" }); return; }
+      if (a.includes("/")) return;
+      if (/[.?!]$/.test(a)) { if (wc(a) >= 3) out.s.push({ a, h: b }); }
+      else if (wc(a) <= 3) out.m.push([a, b]);
+    });
+  });
+  return out;
+}
+
+function gamesBox(i) {
+  const p = pairs(i);
+  if (!p.s.length && p.m.length < 3) return "";
+  return `<div class="box"><h2>🎮 თამაშები</h2><p class="mut">ივარჯიშე ტესტამდე.</p>` +
+    (p.s.length ? `<button class="b" onclick="build(${i})">🧩 წინადადებების აწყობა</button>` : "") +
+    (p.m.length >= 3 ? `<button class="b" onclick="match(${i})">🎯 შესატყვისები</button>` : "") + (p.s.length >= 3 ? `<button class="b" onclick="fill(${i})">✏️ ცარიელი ადგილები</button>` : "") + `</div>`;
+}
+
+function end(text, again) {
+  app.innerHTML = `<h1>🎉 დასრულდა!</h1><div class="res ok">${text}</div>
+  <button class="b" onclick="${again}">თავიდან</button><button class="b g" onclick="level(${G.i})">გაკვეთილებზე დაბრუნება</button>`;
+  window.scrollTo(0, 0);
+}
+
+/* 1) წინადადებების აწყობა (გადათრევა ან დაჭერა) */
+function build(i) {
+  const seen = new Set(), s = pairs(i).s.filter(x => !seen.has(x.a) && seen.add(x.a));
+  G = { mode: "b", i, list: shuf(s).slice(0, 8), k: 0, ok: 0 };
+  bq();
+}
+function bq() {
+  const s = G.list[G.k], w = s.a.split(/\s+/);
+  let t = 0;
+  do { G.words = shuf(w); t++; } while (t < 5 && G.words.join(" ") === s.a);
+  G.line = []; G.bank = G.words.map((_, x) => x); G.done = false; G.miss = false;
+  app.innerHTML = `<button class="b g" onclick="level(${G.i})">← უკან</button><h2>🧩 წინადადების აწყობა</h2>
+  <p class="mut">${G.k + 1} / ${G.list.length}. გადათრიე ან დააჭირე სიტყვებს სწორი თანმიმდევრობით.</p>
+  ${s.h ? `<p><b>${s.h}</b></p>` : ""}<div id="line" class="zone"></div><div id="bank" class="zone"></div>
+  <p id="msg" style="min-height:1.6em"></p>
+  <button class="b" id="chk" onclick="chk()">შემოწმება</button><button class="b g" id="nxt" style="display:none" onclick="nxt()">შემდეგი →</button>`;
+  zones(); window.scrollTo(0, 0);
+}
+function zones() {
+  const f = a => a.map(x => `<span class="chip" data-x="${x}">${G.words[x]}</span>`).join("");
+  document.getElementById("line").innerHTML = f(G.line);
+  document.getElementById("bank").innerHTML = f(G.bank);
+}
+function place(x, zone, px) {
+  const inLine = G.line.includes(x);
+  G.line = G.line.filter(y => y !== x); G.bank = G.bank.filter(y => y !== x);
+  const to = zone === "tap" ? (inLine ? "bank" : "line") : (zone || (inLine ? "line" : "bank"));
+  if (to === "line") {
+    const cs = [...document.querySelectorAll("#line .chip")].filter(el => +el.dataset.x !== x);
+    let at = cs.findIndex(el => { const r = el.getBoundingClientRect(); return px < r.left + r.width / 2; });
+    if (at < 0) at = G.line.length;
+    G.line.splice(at, 0, x);
+  } else G.bank.push(x);
+  zones();
+}
+app.onpointerdown = e => {
+  const c = e.target.closest(".chip");
+  if (!c || !G || G.mode !== "b" || G.done) return;
+  e.preventDefault();
+  const x = +c.dataset.x, sx = e.clientX, sy = e.clientY;
+  let g = null;
+  const mv = ev => {
+    if (!g && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 6) { g = c.cloneNode(true); g.classList.add("ghost"); document.body.appendChild(g); c.style.opacity = .3; }
+    if (g) { g.style.left = ev.clientX + "px"; g.style.top = ev.clientY + "px"; }
+  };
+  const up = ev => {
+    removeEventListener("pointermove", mv); removeEventListener("pointerup", up); removeEventListener("pointercancel", up);
+    if (g) { g.remove(); const t = document.elementFromPoint(ev.clientX, ev.clientY), z = t && t.closest("#line,#bank"); place(x, z && z.id, ev.clientX); }
+    else place(x, "tap");
+  };
+  addEventListener("pointermove", mv); addEventListener("pointerup", up); addEventListener("pointercancel", up);
+};
+function chk() {
+  if (G.done) return;
+  const s = G.list[G.k], m = document.getElementById("msg");
+  if (G.bank.length) { m.textContent = "ჯერ ყველა სიტყვა ჩასვი ზედა ხაზზე."; m.className = ""; return; }
+  if (G.line.map(x => G.words[x]).join(" ") === s.a) {
+    G.done = true; if (!G.miss) G.ok++;
+    m.textContent = "✓ სწორია!"; m.className = "ok";
+    document.getElementById("chk").style.display = "none";
+    document.getElementById("nxt").style.display = "";
+  } else { G.miss = true; m.textContent = "✗ ჯერ არა, სცადე თავიდან."; m.className = "bad"; }
+}
+function nxt() {
+  G.k++;
+  if (G.k < G.list.length) bq(); else end(`${G.ok} / ${G.list.length}`, `build(${G.i})`);
+}
+
+/* 2) შესატყვისები */
+function match(i) {
+  const pool = shuf(pairs(i).m).slice(0, 6), ix = pool.map((_, x) => x);
+  G = { mode: "m", i, pool, ok: 0, miss: 0, sel: null };
+  app.innerHTML = `<button class="b g" onclick="level(${i})">← უკან</button><h2>🎯 შესატყვისები</h2>
+  <p class="mut">დააჭირე ინგლისურ სიტყვას, შემდეგ მის ქართულ თარგმანს.</p>
+  <div class="mg"><div>${shuf(ix).map(x => `<button class="mc en" id="l${x}" onclick="pick('l',${x})">${em(pool[x][0])}${pool[x][0]}</button>`).join("")}</div>
+  <div>${shuf(ix).map(x => `<button class="mc" id="r${x}" onclick="pick('r',${x})">${pool[x][1]}</button>`).join("")}</div></div>`;
+  window.scrollTo(0, 0);
+}
+function pick(s, x) {
+  const el = document.getElementById(s + x);
+  if (el.classList.contains("ok")) return;
+  if (G.sel && G.sel.s === s) {
+    document.getElementById(G.sel.s + G.sel.x).classList.remove("sel");
+    if (G.sel.x === x) { G.sel = null; return; }
+  } else if (G.sel) {
+    const o = G.sel, oe = document.getElementById(o.s + o.x);
+    G.sel = null; oe.classList.remove("sel");
+    if (o.x === x) {
+      el.classList.add("ok"); oe.classList.add("ok"); G.ok++;
+      if (G.ok === G.pool.length) setTimeout(() => end(`შეცდომები: ${G.miss}`, `match(${G.i})`), 500);
+    } else {
+      G.miss++; el.classList.add("no"); oe.classList.add("no");
+      setTimeout(() => { el.classList.remove("no"); oe.classList.remove("no"); }, 500);
+    }
+    return;
+  }
+  G.sel = { s, x }; el.classList.add("sel");
+}
+
+/* 3) ცარიელი ადგილების შევსება */
+function fill(i) {
+  const seen = new Set(), s = pairs(i).s.filter(x => !seen.has(x.a) && seen.add(x.a));
+  const all = [...new Set(s.flatMap(x => x.a.split(/\s+/).map(w => w.replace(/[.?!,]/g, ""))))].filter(w => w.length > 1);
+  G = { mode: "f", i, all, list: shuf(s).slice(0, 8), k: 0, ok: 0 };
+  fq();
+}
+function fq() {
+  const s = G.list[G.k], ws = s.a.split(/\s+/);
+  const cand = ws.map((_, x) => x).filter(x => ws[x].replace(/[.?!,]/g, "").length > 1);
+  const bi = cand.length ? cand[Math.floor(Math.random() * cand.length)] : 0;
+  const ans = ws[bi].replace(/[.?!,]/g, ""), tail = ws[bi].slice(ans.length);
+  G.ans = ans; G.miss = false; G.done = false;
+  const opts = shuf([ans, ...shuf(G.all.filter(w => w.toLowerCase() !== ans.toLowerCase())).slice(0, 3)]);
+  const html = ws.map((w, x) => x === bi ? `<span class="blank" id="bl">&nbsp;</span>${tail}` : w).join(" ");
+  app.innerHTML = `<button class="b g" onclick="level(${G.i})">← უკან</button><h2>✏️ ცარიელი ადგილები</h2>
+  <p class="mut">${G.k + 1} / ${G.list.length}. აირჩიე სწორი სიტყვა.</p>${s.h ? `<p><b>${s.h}</b></p>` : ""}
+  <p class="sent">${html}</p><div class="opts">${opts.map(o => `<button class="mc" onclick="fpick(this)">${o}</button>`).join("")}</div>
+  <p id="msg" style="min-height:1.6em"></p><button class="b g" id="nxt" style="display:none" onclick="fnext()">შემდეგი →</button>`;
+  window.scrollTo(0, 0);
+}
+function fpick(el) {
+  if (G.done || el.disabled) return;
+  const m = document.getElementById("msg");
+  if (el.textContent === G.ans) {
+    G.done = true; if (!G.miss) G.ok++;
+    el.classList.add("ok"); document.getElementById("bl").textContent = G.ans;
+    m.textContent = "✓ სწორია!"; m.className = "ok";
+    document.getElementById("nxt").style.display = "";
+  } else { G.miss = true; el.classList.add("no"); el.disabled = true; m.textContent = "✗ სცადე სხვა."; m.className = "bad"; }
+}
+function fnext() {
+  G.k++;
+  if (G.k < G.list.length) fq(); else end(`${G.ok} / ${G.list.length}`, `fill(${G.i})`);
+}
+
+/* 4) ემოჯები სიტყვებთან */
+const EMO = {apple:"🍎",bag:"🎒",ball:"⚽",bath:"🛁",bathroom:"🚿",bed:"🛏️",bedroom:"🛌",big:"🐘",small:"🐜",beautiful:"🌸",blue:"🔵",red:"🔴",green:"🟢",yellow:"🟡",bookcase:"📚",brother:"👦",sister:"👧",father:"👨",mother:"👩",grandfather:"👴",grandmother:"👵",car:"🚗",chair:"🪑","dining room":"🍽️",dog:"🐶",door:"🚪",ear:"👂",eye:"👁️",face:"🙂",hair:"💇",mouth:"👄",nose:"👃",flat:"🏢",garden:"🌳",happy:"😊",hello:"👋",goodbye:"👋","good morning":"🌅","good evening":"🌆","thank you":"🙏",new:"🆕",old:"🕰️",one:"1️⃣",two:"2️⃣",three:"3️⃣",four:"4️⃣",five:"5️⃣",pen:"🖊️",teacher:"🧑‍🏫",address:"📮","at home":"🏠",good:"👍"};
+Object.assign(EMO, {above:"⬆️",below:"⬇️",behind:"🔙",black:"⚫",brown:"🟤",glass:"🥛",inside:"📥",object:"📦",important:"❗"});
+Object.assign(EMO, {read:"📖",eat:"🍴",walk:"🚶",see:"👀",play:"🎮",live:"🏠"});
+const em = w => { const e = EMO[w.toLowerCase().trim()]; return e ? e + " " : ""; };
+function decorate() {
+  app.querySelectorAll("td.en").forEach(td => {
+    const e = em(td.textContent);
+    if (e && !td.dataset.e) { td.dataset.e = 1; td.insertBefore(document.createTextNode(e), td.firstChild); }
+  });
+}
+const _lv = level; level = function (i) { _lv(i); decorate(); };
+
 home();
 </script>
 </body>
